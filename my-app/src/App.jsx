@@ -9,16 +9,16 @@ import Pages from "./components/Pages/Pages";
 import './App.css';
 
 function App() {
-    // const dispatch = useDispatch();
-    //
-    // useEffect(() =>{
-    //     dispatch(loadingUsers())
-    // })
+    const dispatch = useDispatch();
+
+    useEffect(() =>{
+        dispatch(loadingUsers())
+    })
 
   return (
     <div className="App">
-      {/*<Dashboard/>*/}
-      {/*<Pages/>*/}
+      <Dashboard/>
+      <Pages/>
     </div>
   );
 }
