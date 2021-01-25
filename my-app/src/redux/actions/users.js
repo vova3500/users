@@ -5,6 +5,11 @@ export const setUsers = (users) => ({
     payload: users,
 });
 
+export const deleteUser = (id) => ({
+    type: "DELETE_USER",
+    payload: id,
+});
+
 export const loadingUsers = () => async (dispatch) => {
     try{
         let resposne = await usersAPI.getUsers();

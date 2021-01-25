@@ -14,11 +14,13 @@ const Users = () => {
                 {users.map((user) => (
                     <User
                         key={user.id}
+                        id={user.id}
                         firstName={user.firstName}
                         lastName={user.lastName}
                         email={user.email}
                         picture={user.picture}
-                    />))}
+                    />))
+                }
             </div>
         )
     } else {
