@@ -1,7 +1,7 @@
 const setUsers = "SET_USERS";
 
 const initialState = {
-    users: []
+    items: []
 };
 
 const users = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const users = (state = initialState, action) => {
         case setUsers: {
             return {
                 ...state,
-                users: action.payload,
+                items: action.payload,
             };
         }
 

@@ -3,10 +3,12 @@ import { Route } from "react-router-dom";
 
 import Users from "./Users/Users";
 
+import "./pages.css"
+
 const Pages = () => {
 
     return (
-        <div>
+        <div className="pages">
             <Route exact path={"/"} component={Users} />
             {/*<Route exact path={"/edit"} component={Users} />*/}
         </div>

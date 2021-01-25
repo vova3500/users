@@ -8,8 +8,7 @@ export const setUsers = (users) => ({
 export const loadingUsers = () => async (dispatch) => {
     try{
         let resposne = await usersAPI.getUsers();
-        console.log(resposne)
-
+        dispatch(setUsers(resposne.data.data))
     }
     catch (e){
         console.log(e)
