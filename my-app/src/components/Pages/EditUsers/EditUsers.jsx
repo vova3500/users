@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
-import { useForm, Controller } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import {Link} from "react-router-dom";
+import Toastify from 'toastify-js'
 
 import {onEditUser} from "../../../redux/actions/users"
-
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -41,21 +41,43 @@ const useStyles = makeStyles({
    },
    input:{
       marginBottom: 10
+   },
+   toast:{
+      width: 400,
+      color: "white",
+      position: "absolute",
+      right:20,
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 25,
+      paddingRight: 25,
+      borderRadius: 5,
    }
 });
 
-const EditUsers = ({editUser}) => {
+const EditUsers = ({id, picture, firstName, dateOfBirth, location,phone, gender}) => {
    const classes = useStyles();
 
    const dispatch =  useDispatch();
 
-   const {handleSubmit, control } = useForm();
+   const {handleSubmit, register } = useForm();
+
+   let myDate = dateOfBirth ? dateOfBirth.slice(0, 10) : 0
+
    const onSubmit = data => {
-      let editUserId = editUser.id
-      dispatch(onEditUser({...data, id:editUserId}))
+      console.log(data)
+      dispatch(onEditUser({...data, id}))
+      Toastify({
+         text: "This is a toast",
+         duration: 3000,
+         gravity: "bottom",
+         backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+         className: classes.toast,
+      }).showToast();
    };
 
-   return  editUser ? <Container className={classes.root}>
+
+   return  id ? <Container className={classes.root}>
       <Container className={classes.exit}>
          <Link to="/">
             <IconButton color="primary" aria-label="upload picture" component="span">
@@ -63,49 +85,25 @@ const EditUsers = ({editUser}) => {
             </IconButton>
          </Link>
       </Container>
-      <Avatar className={classes.avatar} alt="Remy Sharp" src={editUser.picture} />
+      <Avatar className={classes.avatar} alt="Remy Sharp" src={picture} />
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-         <Controller
+         <TextField
+             defaultValue={firstName}
+             className={classes.input}
+             label="FirstName"
              name="firstName"
-             control={control}
-             defaultValue={editUser.firstName}
-             render={props =>
-                 <TextField
-                     onChange={e => props.onChange(e.target.value)}
-                     defaultValue={editUser.firstName}
-                     className={classes.input}
-                     label="FirstName"
-                     type="input"
-                 />
-             }
+             inputRef={register}
          />
-         <Controller
-             name="lastName"
-             control={control}
-             defaultValue={editUser.lastName}
-             render={props =>
-                 <TextField
-                     onChange={e => props.onChange(e.target.value)}
-                     defaultValue={editUser.lastName}
-                     className={classes.input}
-                     label="LastName"
-                     type="input"
-                 />
-             }
-         />
-         <Controller
-             name="email"
-             control={control}
-             defaultValue={editUser.email}
-             render={props =>
-                 <TextField
-                     onChange={e => props.onChange(e.target.value)}
-                     defaultValue={editUser.email}
-                     className={classes.input}
-                     label="Email"
-                     type="input"
-                 />
-             }
+         <TextField
+             label="Date of birth"
+             name="dateOfBirth"
+             type="date"
+             defaultValue={myDate}
+             className={classes.input}
+             InputLabelProps={{
+                shrink: true,
+             }}
+             inputRef={register}
          />
          <Button type="submit" variant="contained" color="primary">
             Submit

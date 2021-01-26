@@ -6,7 +6,7 @@ const selectionUser = "SELECTION_USER";
 const initialState = {
     items: [],
     count: 0,
-    editUser: 0
+    activeUser: {}
 };
 
 const users = (state = initialState, action) => {
@@ -30,25 +30,25 @@ const users = (state = initialState, action) => {
         case selectionUser: {
             return {
                 ...state,
-                editUser: action.payload,
+                activeUser: action.payload,
             };
         }
 
         case editUser: {
             const newUsers = [...state.items].map((item) => {
                 if (item.id === action.payload.id) {
-                    let newUser = {...item,...action.payload}
-                    return newUser
+                    return {...item, firstName: action.payload.firstName}
                 }
                 return item
             })
+
+            const newActiveUser = {...state.activeUser, ...action.payload}
             return {
                 ...state,
                 items: newUsers,
+                activeUser: newActiveUser
             };
         }
-
-
 
         default: {
             return state;

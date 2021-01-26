@@ -11,9 +11,9 @@ export const deleteUser = (id) => ({
     payload: id,
 });
 
-export const selectionUser = (id) => ({
+export const selectionUser = (fullInfoUser) => ({
     type: "SELECTION_USER",
-    payload: id,
+    payload: fullInfoUser,
 });
 
 export const onEditUser = (user) => ({
@@ -30,3 +30,16 @@ export const loadingUsers = (page) => async (dispatch) => {
         console.log(e)
     }
 };
+
+export const loadingFullInfoUser = (id) => async (dispatch) => {
+    try{
+        let response = await usersAPI.getUserFullProfile(id);
+        console.log(response)
+        dispatch(selectionUser(response.data))
+    }
+    catch (e){
+        console.log(e)
+    }
+};
+
+

@@ -20,14 +20,14 @@ const Pages = () => {
     const classes = useStyles();
 
     const users = useSelector(({users}) => users.items)
-    const selectionUser  = useSelector(({users}) => users.editUser)
+    const activeUser  = useSelector(({users}) => users.activeUser)
 
-    const  editUser = users ? users.filter((user) => user.id === selectionUser) : null
+    // const  editUser = users ? users.filter((user) => user.id === selectionUser) : null
 
     return (
         <Container className={classes.root}>
             <Route exact path={"/"} render={() => <Users users={users}/>} />
-            <Route path={"/edit"} render={() => <EditUsers editUser={editUser[0]} />}/>
+            <Route path={"/edit"} render={() => <EditUsers {...activeUser} />}/>
         </Container>
     )
 }
