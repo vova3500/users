@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import User from "./User/User";
 import Pagination from "./Pagination/Pagination";
@@ -51,7 +52,10 @@ const Users = ({users}) => {
     } else {
         return <div>No users</div>
     }
+}
 
+Users.propTypes = {
+    users: PropTypes.array,
 }
 
 export default Users

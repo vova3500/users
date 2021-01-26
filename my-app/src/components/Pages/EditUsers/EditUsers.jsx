@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+import {useDispatch} from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import {onEditUser} from "../../../redux/actions/users"
 
@@ -8,7 +10,6 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
-import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles({
    root: {
@@ -99,5 +100,10 @@ const EditUsers = ({editUser}) => {
       </form>
    </Container> : <Container>No user</Container>
 }
+
+EditUsers.propTypes = {
+   editUser: PropTypes.object
+}
+
 
 export default EditUsers

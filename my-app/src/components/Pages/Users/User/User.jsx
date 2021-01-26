@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -81,29 +82,14 @@ const User = ({id, firstName, lastName, email, picture}) => {
             </CardActions>
         </Card>
     )
+}
 
-    // return (
-    //     <div className="user">
-    //         <div className="user-tools">
-    //             <Link exact to={`/edit/${id}`}>
-    //                 <div>
-    //                     <img src="https://img.icons8.com/plasticine/100/000000/edit.png"/>
-    //                 </div>
-    //             </Link>
-    //             <div onClick={hendelDeleteUser}>
-    //                 <img src="https://img.icons8.com/plasticine/100/000000/delete-sign.png"/>
-    //             </div>
-    //         </div>
-    //         <div className="user-info">
-    //             <div className="user-info-picture">
-    //                 <img src={picture} />
-    //             </div>
-    //             <div>{`FirstName: ${firstName}`}</div>
-    //             <div>{`LastName: ${lastName}`}</div>
-    //             <div>{`Email: ${email}`}</div>
-    //         </div>
-    //     </div>
-    // )
+User.propTypes = {
+    id: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    picture: PropTypes.string
 }
 
 export default User
