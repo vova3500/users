@@ -10,10 +10,20 @@ export const deleteUser = (id) => ({
     payload: id,
 });
 
+export const selectionUser = (id) => ({
+    type: "SELECTION_USER",
+    payload: id,
+});
+
+export const onEditUser = (user) => ({
+    type: "EDIT_USER",
+    payload: user,
+});
+
 export const loadingUsers = () => async (dispatch) => {
     try{
-        let resposne = await usersAPI.getUsers();
-        dispatch(setUsers(resposne.data.data))
+        let response = await usersAPI.getUsers();
+        dispatch(setUsers(response.data.data))
     }
     catch (e){
         console.log(e)

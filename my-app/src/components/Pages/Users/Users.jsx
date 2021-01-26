@@ -2,15 +2,25 @@ import React from "react";
 
 import User from "./User/User";
 
-import "./users.css"
-import {useSelector} from "react-redux";
+import { makeStyles } from '@material-ui/core/styles';
 
-const Users = () => {
-    const users = useSelector(({users}) => users.items)
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles({
+    root: {
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+        flexWrap: "wrap"
+    }
+});
+
+const Users = ({users}) => {
+    const classes = useStyles();
 
     if (users) {
         return (
-            <div className="users">
+            <Container className={classes.root}>
                 {users.map((user) => (
                     <User
                         key={user.id}
@@ -21,7 +31,7 @@ const Users = () => {
                         picture={user.picture}
                     />))
                 }
-            </div>
+            </Container>
         )
     } else {
         return <div>No users</div>
