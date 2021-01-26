@@ -16,7 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles({
     root: {
-        width: 325,
+        width: 300,
         margin: 30,
         paddingTop: 25,
         marginBottom: 25,

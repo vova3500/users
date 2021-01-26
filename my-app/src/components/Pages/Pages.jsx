@@ -12,7 +12,7 @@ import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles({
     root: {
-        width: "70%",
+        width: "90%",
     },
 
 });
