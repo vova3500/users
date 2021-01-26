@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
 import { useForm, Controller } from "react-hook-form";
+import {Link} from "react-router-dom";
+
 import {onEditUser} from "../../../redux/actions/users"
+
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -10,6 +13,9 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+
 
 const useStyles = makeStyles({
    root: {
@@ -50,6 +56,13 @@ const EditUsers = ({editUser}) => {
    };
 
    return  editUser ? <Container className={classes.root}>
+      <Container className={classes.exit}>
+         <Link to="/">
+            <IconButton color="primary" aria-label="upload picture" component="span">
+               <ArrowBackIcon fontSize="large" color="primary"/>
+            </IconButton>
+         </Link>
+      </Container>
       <Avatar className={classes.avatar} alt="Remy Sharp" src={editUser.picture} />
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
          <Controller
@@ -98,7 +111,15 @@ const EditUsers = ({editUser}) => {
             Submit
          </Button>
       </form>
-   </Container> : <Container>No user</Container>
+   </Container> :
+       <Container  className={classes.root}>
+         <Link to="/">
+            <IconButton color="primary" aria-label="upload picture" component="span">
+               <ArrowBackIcon fontSize="large" color="primary"/>
+            </IconButton>
+         </Link>
+         <div>No user</div>
+      </Container>
 }
 
 EditUsers.propTypes = {
