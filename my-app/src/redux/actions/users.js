@@ -21,12 +21,17 @@ export const onEditUser = (user) => ({
     payload: user,
 });
 
+export const setError = (error) => ({
+    type: "SET_ERROR",
+    payload: error,
+});
+
 export const loadingUsers = (page) => async (dispatch) => {
     try{
         let response = await usersAPI.getUsers(page);
         dispatch(setUsers(response.data.data,response.data.total))
     }
     catch (e){
-        console.log(e)
+        dispatch(setError())
     }
 };

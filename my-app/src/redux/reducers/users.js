@@ -2,11 +2,13 @@ const setUsers = "SET_USERS";
 const deleteUser = "DELETE_USER";
 const editUser = "EDIT_USER";
 const selectionUser = "SELECTION_USER";
+const setError = "SET_ERROR";
 
 const initialState = {
     items: [],
     count: 0,
-    editUser: 0
+    editUser: 0,
+    error: false
 };
 
 const users = (state = initialState, action) => {
@@ -48,6 +50,12 @@ const users = (state = initialState, action) => {
             };
         }
 
+        case setError: {
+            return {
+                ...state,
+                error: true,
+            };
+        }
 
 
         default: {

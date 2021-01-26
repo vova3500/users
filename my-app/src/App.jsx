@@ -1,15 +1,18 @@
 import {useEffect} from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {loadingUsers} from "./redux/actions/users"
 
 import Dashboard from "./components/Dasboard/Dashboard"
 import Pages from "./components/Pages/Pages";
+import NotFound from "./components/Pages/NotFound/NotFound"
 
 import './App.css';
 
 function App() {
     const dispatch = useDispatch();
+
+    const error = useSelector(({users}) => users.error)
 
     useEffect(() =>{
         dispatch(loadingUsers())
@@ -18,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <Dashboard/>
-      <Pages/>
+        {!error ? <Pages/> : <NotFound/>}
     </div>
   );
 }
