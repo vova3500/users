@@ -1,5 +1,7 @@
 import React from "react";
+import {useSelector} from "react-redux";
 import { Route } from "react-router-dom";
+
 
 import Users from "./Users/Users";
 import EditUsers from "./EditUsers/EditUsers";
@@ -7,7 +9,6 @@ import EditUsers from "./EditUsers/EditUsers";
 import { makeStyles } from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
-import {useSelector} from "react-redux";
 
 const useStyles = makeStyles({
     root: {

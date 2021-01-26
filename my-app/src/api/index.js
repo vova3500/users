@@ -8,9 +8,9 @@ const instance = axios.create({
 });
 
 export const usersAPI = {
-    getUsers() {
+    getUsers(page) {
         return instance.get(
-            "user"
+            `user?page=${page}&limit=20`
         );
     },
 }

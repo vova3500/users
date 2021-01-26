@@ -1,8 +1,9 @@
 import { usersAPI } from "../../api";
 
-export const setUsers = (users) => ({
+export const setUsers = (users,total) => ({
     type: "SET_USERS",
     payload: users,
+    count: total
 });
 
 export const deleteUser = (id) => ({
@@ -20,10 +21,10 @@ export const onEditUser = (user) => ({
     payload: user,
 });
 
-export const loadingUsers = () => async (dispatch) => {
+export const loadingUsers = (page) => async (dispatch) => {
     try{
-        let response = await usersAPI.getUsers();
-        dispatch(setUsers(response.data.data))
+        let response = await usersAPI.getUsers(page);
+        dispatch(setUsers(response.data.data,response.data.total))
     }
     catch (e){
         console.log(e)

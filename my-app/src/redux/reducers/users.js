@@ -5,6 +5,7 @@ const selectionUser = "SELECTION_USER";
 
 const initialState = {
     items: [],
+    count: 0,
     editUser: 0
 };
 
@@ -14,6 +15,7 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 items: action.payload,
+                count: action.count
             };
         }
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 import User from "./User/User";
+import Pagination from "./Pagination/Pagination";
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -31,6 +32,7 @@ const Users = ({users}) => {
                         picture={user.picture}
                     />))
                 }
+                <Pagination />
             </Container>
         )
     } else {
