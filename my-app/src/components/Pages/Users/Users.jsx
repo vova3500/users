@@ -8,6 +8,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
 import {loadingUsers} from "../../../redux/actions/users";
+import SkeletonUser from "../../Loaders/SkeletonUser";
 
 const useStyles = makeStyles({
     root: {
@@ -41,24 +42,29 @@ const Users = () => {
     }, [dispatch])
 
     return (
-        !loading ?
-            <Container className={classes.root}>
-                <Container className={classes.users}>
-                    {users.map((user) => (
-                        <User
-                            key={user.id}
-                            id={user.id}
-                            firstName={user.firstName}
-                            lastName={user.lastName}
-                            email={user.email}
-                            picture={user.picture}
-                        />))
-                    }
-                </Container>
-                <Container className={classes.pagination}>
-                    <Pagination/>
-                </Container>
-            </Container> : <div>loading...</div>
+        <Container className={classes.root}>
+            <Container className={classes.users}>
+                {
+                    !loading ?
+                        users.map((user) => (
+                            <User
+                                key={user.id}
+                                id={user.id}
+                                firstName={user.firstName}
+                                lastName={user.lastName}
+                                email={user.email}
+                                picture={user.picture}
+                            />)) :
+                        Array(20)
+                            .fill(0)
+                            .map((_, index) => <SkeletonUser key={index}/>)
+                }
+            </Container>
+            <Container className={classes.pagination}>
+                <Pagination/>
+            </Container>
+        </Container>
+
     )
 }
 

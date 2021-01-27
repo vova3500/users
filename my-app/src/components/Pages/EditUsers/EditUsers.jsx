@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
+import LoadingEditUser from "../../Loaders/LoadingEditUser";
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
@@ -164,7 +165,7 @@ const EditUsers = () => {
                 </Button>
             </form>
         </Container> :
-        <div>Loading...</div>
+        <LoadingEditUser/>
 }
 
 export default EditUsers
