@@ -3,7 +3,7 @@ import axios from "axios";
 const instance = axios.create({
     baseURL: "https://dummyapi.io/data/api/",
     headers: {
-        "app-id" : "lTE5abbDxdjGplutvTuc",
+        "app-id" : process.env.REACT_APP_API_ID
     },
 });
 

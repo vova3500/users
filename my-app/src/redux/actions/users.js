@@ -34,7 +34,6 @@ export const loadingUsers = (page) => async (dispatch) => {
 export const loadingFullInfoUser = (id) => async (dispatch) => {
     try{
         let response = await usersAPI.getUserFullProfile(id);
-        console.log(response)
         dispatch(selectionUser(response.data))
     }
     catch (e){
