@@ -1,3 +1,6 @@
+import {getCurrentAge} from "../../utils/helpers"
+
+const setLoading = "SET_LOADING"
 const setUsers = "SET_USERS";
 const deleteUser = "DELETE_USER";
 const editUser = "EDIT_USER";
@@ -6,15 +9,19 @@ const selectionUser = "SELECTION_USER";
 const initialState = {
     items: [],
     count: 0,
-    activeUser: {}
+    activeUser: {},
+    loading: false,
 };
-
-const getCurrentAge = (date) =>{
-    return ((new Date().getTime() - new Date(date)) / (24 * 3600 * 365.25 * 1000)) | 0;
-}
 
 const users = (state = initialState, action) => {
     switch (action.type) {
+        case setLoading: {
+            return {
+                ...state,
+                loading: !state.loading,
+            };
+        }
+
         case setUsers: {
             return {
                 ...state,
