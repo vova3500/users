@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
-import { useForm} from "react-hook-form";
+import {useForm, Controller} from "react-hook-form";
 import {Link} from "react-router-dom";
 import Toastify from 'toastify-js'
 
@@ -11,8 +11,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
+import Slider from '@material-ui/core/Slider';
+
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -55,27 +58,25 @@ const useStyles = makeStyles({
    }
 });
 
-const EditUsers = ({id, picture, firstName, dateOfBirth, location,phone, gender}) => {
+const EditUsers = ({id, picture, firstName, lastName, dateOfBirth, age, email, gender}) => {
    const classes = useStyles();
 
    const dispatch =  useDispatch();
 
-   const {handleSubmit, register } = useForm();
+   const {handleSubmit, register, control} = useForm();
 
    let myDate = dateOfBirth ? dateOfBirth.slice(0, 10) : 0
 
    const onSubmit = data => {
-      console.log(data)
       dispatch(onEditUser({...data, id}))
       Toastify({
-         text: "This is a toast",
+         text: "Changes are successful",
          duration: 3000,
          gravity: "bottom",
          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
          className: classes.toast,
       }).showToast();
    };
-
 
    return  id ? <Container className={classes.root}>
       <Container className={classes.exit}>
@@ -95,6 +96,13 @@ const EditUsers = ({id, picture, firstName, dateOfBirth, location,phone, gender}
              inputRef={register}
          />
          <TextField
+             defaultValue={lastName}
+             className={classes.input}
+             label="LastName"
+             name="lastName"
+             inputRef={register}
+         />
+         <TextField
              label="Date of birth"
              name="dateOfBirth"
              type="date"
@@ -104,6 +112,38 @@ const EditUsers = ({id, picture, firstName, dateOfBirth, location,phone, gender}
                 shrink: true,
              }}
              inputRef={register}
+         />
+         <TextField
+             label="email"
+             name="email"
+             type="email"
+             defaultValue={email}
+             className={classes.input}
+             InputLabelProps={{
+                shrink: true,
+             }}
+             inputRef={register}
+         />
+         <Controller
+             name="age"
+             control={control}
+             className={classes.input}
+             render={({onChange}) =>
+                 <>
+                    <Typography id="discrete-slider" gutterBottom>
+                       Age
+                    </Typography>
+                    <Slider
+                        key={age}
+                        onChange={e => onChange(Number(e.target.innerText))}
+                        valueLabelDisplay="auto"
+                        defaultValue={age}
+                        step={1}
+                        min={1}
+                        max={110}
+                    />
+                 </>
+             }
          />
          <Button type="submit" variant="contained" color="primary">
             Submit
