@@ -1,57 +1,79 @@
 import { usersAPI } from "../../api";
+import {
+    FETCH_USERS_FAIL,
+    FETCH_USERS_START,
+    FETCH_USERS_SUCCESS,
+
+    FETCH_USER_START,
+    FETCH_USER_SUCCESS,
+    FETCH_USER_FAIL,
+
+    DELETE_USER,
+    EDIT_USER
+} from "../reducers/users";
 
 export const setLoading = () => ({
     type: "SET_LOADING",
 });
 
-export const setUsers = (users,total) => ({
-    type: "SET_USERS",
+export const fetchUsersStart = (users, total) => ({
+    type: FETCH_USERS_START
+});
+export const fetchUsersSuccess = (users, total) => ({
+    type: FETCH_USERS_SUCCESS,
     payload: users,
     count: total
 });
+export const fetchUsersFail = (error) => ({
+    type: FETCH_USERS_FAIL,
+    payload: error,
+});
+
+export const fetchUserStart = () => ({
+    type: FETCH_USER_START
+});
+export const fetchUserSuccess = (users, total) => ({
+    type: FETCH_USER_SUCCESS,
+    payload: users,
+    count: total
+});
+export const fetchUserFail = (error) => ({
+    type: FETCH_USER_FAIL,
+    payload: error,
+});
 
 export const deleteUser = (id) => ({
-    type: "DELETE_USER",
+    type: DELETE_USER,
     payload: id,
 });
 
-export const selectionUser = (fullInfoUser) => ({
-    type: "SELECTION_USER",
-    payload: fullInfoUser,
-});
-
-export const onEditUser = (user) => ({
-    type: "EDIT_USER",
+export const onEditUser = (user, toast) => ({
+    type: EDIT_USER,
     payload: user,
+    toast
 });
 
 export const loadingUsers = (page) => async (dispatch) => {
-    dispatch(setLoading())
+    dispatch(fetchUsersStart())
 
     try{
         let response = await usersAPI.getUsers(page);
-        dispatch(setUsers(response.data.data,response.data.total))
+        dispatch(fetchUsersSuccess(response.data.data,response.data.total))
     }
     catch (e){
-        console.log(e)
-    }
-    finally {
-        dispatch(setLoading())
+        dispatch(fetchUsersFail(e))
     }
 };
 
 export const loadingFullInfoUser = (id) => async (dispatch) => {
-    dispatch(setLoading())
+    dispatch(fetchUserStart())
 
     try{
         let response = await usersAPI.getUserFullProfile(id);
-        dispatch(selectionUser(response.data))
+        dispatch(fetchUserSuccess(response.data))
     }
     catch (e){
-        console.log(e)
-    }
-    finally {
-        dispatch(setLoading())
+        dispatch(fetchUserFail(e))
     }
 };
 

@@ -1,10 +1,15 @@
 import {getCurrentAge} from "../../utils/helpers"
 
-const setLoading = "SET_LOADING"
-const setUsers = "SET_USERS";
-const deleteUser = "DELETE_USER";
-const editUser = "EDIT_USER";
-const selectionUser = "SELECTION_USER";
+export const DELETE_USER = "DELETE_USER";
+export const EDIT_USER = "EDIT_USER";
+
+export const FETCH_USER_START = "FETCH_USER_START";
+export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
+export const FETCH_USER_FAIL = "FETCH_USER_FAIL";
+
+export const FETCH_USERS_START = "FETCH_USERS_START";
+export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
+export const FETCH_USERS_FAIL = "FETCH_USERS_FAIL";
 
 const initialState = {
     items: [],
@@ -15,22 +20,53 @@ const initialState = {
 
 const users = (state = initialState, action) => {
     switch (action.type) {
-        case setLoading: {
+        case FETCH_USERS_START: {
             return {
                 ...state,
-                loading: !state.loading,
-            };
+                loading: true
+            }
         }
-
-        case setUsers: {
+        case FETCH_USERS_SUCCESS: {
+            const newUsers = [...action.payload].map((item) => ({...item, isFrend: false}))
             return {
                 ...state,
-                items: action.payload,
-                count: action.count
+                items: newUsers,
+                count: action.count,
+                loading: false
             };
         }
+        case FETCH_USERS_FAIL: {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error
+            }
+        }
 
-        case deleteUser: {
+        case FETCH_USER_START: {
+            return {
+                ...state,
+                loading: true
+            }
+        }
+        case FETCH_USER_SUCCESS: {
+            let age = getCurrentAge(action.payload.dateOfBirth)
+
+            return {
+                ...state,
+                activeUser: {...action.payload, age},
+                loading: false
+            };
+        }
+        case FETCH_USER_FAIL: {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error
+            }
+        }
+
+        case DELETE_USER: {
             const newUsers = [...state.items].filter((item) => action.payload !== item.id)
             return {
                 ...state,
@@ -38,19 +74,11 @@ const users = (state = initialState, action) => {
             };
         }
 
-        case selectionUser: {
-            let age = getCurrentAge(action.payload.dateOfBirth)
-
-            return {
-                ...state,
-                activeUser: {...action.payload, age},
-            };
-        }
-
-        case editUser: {
+        case EDIT_USER: {
             const newUsers = [...state.items].map((item) => {
                 if (item.id === action.payload.id) {
-                    return {...item,
+                    return {
+                        ...item,
                         firstName: action.payload.firstName,
                         lastName: action.payload.lastName,
                         email: action.payload.email
@@ -60,10 +88,12 @@ const users = (state = initialState, action) => {
             })
 
             const newYear = new Date().getFullYear() - action.payload.age
-            const copyMonthAndDey = action.payload.dateOfBirth.slice(5,10)
-            const newDate = `${newYear}-${copyMonthAndDey}`
+            const copyMonthAndDay = action.payload.dateOfBirth.slice(5, 10)
+            const newDate = `${newYear}-${copyMonthAndDay}`
 
-            const newActiveUser = {...state.activeUser, ...action.payload, dateOfBirth:newDate}
+            const newActiveUser = {...state.activeUser, ...action.payload, dateOfBirth: newDate}
+
+            action.toast()
 
             return {
                 ...state,

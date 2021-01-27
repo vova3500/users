@@ -61,7 +61,7 @@ const useStyles = makeStyles({
 const EditUsers = () => {
     const classes = useStyles();
     const params = useParams()
-    const {handleSubmit, register, control} = useForm();
+    const {handleSubmit, register, control, setValue} = useForm();
 
     const dispatch = useDispatch();
 
@@ -80,17 +80,23 @@ const EditUsers = () => {
         dispatch(loadingFullInfoUser(params.id))
     }, [dispatch, params.id])
 
+    const toast = () =>{
+        Toastify({
+            className: classes.toast,
+            text: "Changes are successful",
+            duration: 3000,
+            newWindow: true,
+            gravity: "bottom",
+            position: "left",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            stopOnFocus: true,
+        }).showToast();
+    }
+
     let myDate = dateOfBirth ? dateOfBirth.slice(0, 10) : 0
 
     const onSubmit = data => {
-        dispatch(onEditUser({...data, id}))
-        Toastify({
-            text: "Changes are successful",
-            duration: 3000,
-            gravity: "bottom",
-            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-            className: classes.toast,
-        }).showToast();
+        dispatch(onEditUser({...data, id}, toast))
     };
 
     return !loading ? <Container className={classes.root}>
@@ -101,69 +107,76 @@ const EditUsers = () => {
                     </IconButton>
                 </Link>
             </Container>
-            <Avatar className={classes.avatar} alt="Remy Sharp" src={picture}/>
-            <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                    defaultValue={firstName}
-                    className={classes.input}
-                    label="FirstName"
-                    name="firstName"
-                    inputRef={register}
-                />
-                <TextField
-                    defaultValue={lastName}
-                    className={classes.input}
-                    label="LastName"
-                    name="lastName"
-                    inputRef={register}
-                />
-                <TextField
-                    label="Date of birth"
-                    name="dateOfBirth"
-                    type="date"
-                    defaultValue={myDate}
-                    className={classes.input}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    inputRef={register}
-                />
-                <TextField
-                    label="email"
-                    name="email"
-                    type="email"
-                    defaultValue={email}
-                    className={classes.input}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    inputRef={register}
-                />
-                <Controller
-                    name="age"
-                    control={control}
-                    className={classes.input}
-                    render={({onChange}) =>
-                        <>
-                            <Typography id="discrete-slider" gutterBottom>
-                                Age
-                            </Typography>
-                            <Slider
-                                key={age}
-                                onChange={e => onChange(Number(e.target.innerText))}
-                                valueLabelDisplay="auto"
-                                defaultValue={age}
-                                step={1}
-                                min={1}
-                                max={110}
-                            />
-                        </>
-                    }
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
-            </form>
+            {
+                id ?
+                <>
+                    <Avatar className={classes.avatar} alt="Remy Sharp" src={picture}/>
+                    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+                        <TextField
+                            defaultValue={firstName}
+                            className={classes.input}
+                            label="FirstName"
+                            name="firstName"
+                            inputRef={register}
+                        />
+                        <TextField
+                            defaultValue={lastName}
+                            className={classes.input}
+                            label="LastName"
+                            name="lastName"
+                            inputRef={register}
+                        />
+                        <TextField
+                            label="Date of birth"
+                            name="dateOfBirth"
+                            type="date"
+                            defaultValue={myDate}
+                            // value={myDate}
+                            className={classes.input}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            inputRef={register}
+                        />
+                        <TextField
+                            label="email"
+                            name="email"
+                            type="email"
+                            defaultValue={email}
+                            className={classes.input}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            inputRef={register}
+                        />
+                        <Controller
+                            name="age"
+                            control={control}
+                            className={classes.input}
+                            render={({onChange}) =>
+                                <>
+                                    <Typography id="discrete-slider" gutterBottom>
+                                        Age
+                                    </Typography>
+                                    <Slider
+                                        key={age}
+                                        onChange={e => onChange(Number(e.target.innerText))}
+                                        valueLabelDisplay="auto"
+                                        defaultValue={age}
+                                        step={1}
+                                        min={1}
+                                        max={110}
+                                    />
+                                </>
+                            }
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            Submit
+                        </Button>
+                    </form>
+                </>: <div>No User</div>
+            }
+
         </Container> :
         <LoadingEditUser/>
 }
