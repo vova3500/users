@@ -1,12 +1,13 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, {useEffect} from "react";
 
 import User from "./User/User";
 import Pagination from "./Pagination/Pagination";
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
+import {useDispatch, useSelector} from "react-redux";
+import {loadingUsers} from "../../../redux/actions/users";
 
 const useStyles = makeStyles({
     root: {
@@ -18,19 +19,29 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
         flexWrap: "wrap"
     },
-    pagination:{
+    pagination: {
         display: "flex",
         justifyContent: "center",
-        paddingTop:20,
-        paddingBottom:20
+        paddingTop: 20,
+        paddingBottom: 20
     }
 });
 
-const Users = ({users}) => {
+const Users = () => {
     const classes = useStyles();
 
-    if (users) {
-        return (
+    const dispatch = useDispatch()
+
+    const users = useSelector(({users}) => users.items)
+    const loading = useSelector(({users}) => users.loading)
+
+
+    useEffect(() => {
+        dispatch(loadingUsers())
+    }, [dispatch])
+
+    return (
+        !loading ?
             <Container className={classes.root}>
                 <Container className={classes.users}>
                     {users.map((user) => (
@@ -45,17 +56,10 @@ const Users = ({users}) => {
                     }
                 </Container>
                 <Container className={classes.pagination}>
-                    <Pagination />
+                    <Pagination/>
                 </Container>
-            </Container>
-        )
-    } else {
-        return <div>No users</div>
-    }
-}
-
-Users.propTypes = {
-    users: PropTypes.array,
+            </Container> : <div>loading...</div>
+    )
 }
 
 export default Users

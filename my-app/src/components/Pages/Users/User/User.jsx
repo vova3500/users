@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {deleteUser, loadingFullInfoUser} from "../../../../redux/actions/users"
+import {deleteUser} from "../../../../redux/actions/users"
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -50,10 +50,6 @@ const User = ({id, firstName, lastName, email, picture}) => {
         dispatch(deleteUser(id))
     }
 
-    const onSelectionUser = () => {
-        dispatch(loadingFullInfoUser(id))
-    }
-
     return (
         <Card className={classes.root}>
             <CardActionArea className={classes.cardActionArea}>
@@ -76,7 +72,7 @@ const User = ({id, firstName, lastName, email, picture}) => {
                     Delete
                 </Button>
                 <Link to={`/edit/${id}`}>
-                    <Button onClick={onSelectionUser} size="small" color="primary">
+                    <Button  size="small" color="primary">
                         Edit
                     </Button>
                 </Link>
