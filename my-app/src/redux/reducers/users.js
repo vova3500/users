@@ -1,4 +1,4 @@
-import {getCurrentAge} from "../../utils/helpers"
+import {calcDate, getCurrentAge} from "../../utils/helpers"
 
 export const DELETE_USER = "DELETE_USER";
 export const EDIT_USER = "EDIT_USER";
@@ -88,10 +88,7 @@ const users = (state = initialState, action) => {
                 return item
             })
 
-            const newYear = new Date().getFullYear() - action.payload.age
-            const copyMonthAndDay = action.payload.dateOfBirth.slice(5, 10)
-            const newDate = `${newYear}-${copyMonthAndDay}`
-
+            const newDate = calcDate(action.payload.age, action.payload.dateOfBirth)
             const newActiveUser = {...state.activeUser, ...action.payload, dateOfBirth: newDate}
 
             action.toast()

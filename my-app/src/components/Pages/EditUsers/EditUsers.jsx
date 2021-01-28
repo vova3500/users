@@ -6,20 +6,20 @@ import Toastify from 'toastify-js'
 
 import {loadingFullInfoUser, onEditUser} from "../../../redux/actions/users"
 import Error from "../../../utils/Error/Error";
+import Input from "../../../utils/Input/Input";
+import {calcDate, getCurrentAge} from "../../../utils/helpers";
 
 import {makeStyles} from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/core/Slider';
 import LoadingEditUser from "../../Loaders/LoadingEditUser";
-
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-
+import TextField from "@material-ui/core/TextField";
+import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
     root: {
@@ -78,6 +78,8 @@ const EditUsers = () => {
         email
     } = useSelector(({users}) => users.activeUser)
 
+    let myDate = dateOfBirth ? dateOfBirth.slice(0, 10) : 0
+
     useEffect(() => {
         dispatch(loadingFullInfoUser(params.id))
     }, [dispatch, params.id])
@@ -95,11 +97,32 @@ const EditUsers = () => {
         }).showToast();
     }
 
-    let myDate = dateOfBirth ? dateOfBirth.slice(0, 10) : 0
-
     const onSubmit = data => {
+        console.log(data)
         dispatch(onEditUser({...data, id}, toast))
     };
+
+    const handleChangeDateOfBirth = (e) => {
+        const newAge = getCurrentAge(e.target.value)
+
+        setValue("dateOfBirth", e.target.value);
+        setValue("age", newAge);
+    }
+    const handleChangeAge = (value) => {
+        const newDate = calcDate(value, dateOfBirth)
+
+        setValue("age", value);
+        setValue("dateOfBirth", newDate)
+    }
+
+    React.useEffect(() => {
+        register("dateOfBirth");
+    }, [register])
+
+    React.useEffect(() => {
+        register("age");
+    }, [register])
+
 
     return (
         <LoadingEditUser loading={loading}>
@@ -114,61 +137,58 @@ const EditUsers = () => {
                 <Error error={error}>
                     <Avatar className={classes.avatar} alt="Remy Sharp" src={picture}/>
                     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-                        <TextField
-                            defaultValue={firstName}
+                        <Input
                             className={classes.input}
-                            label="FirstName"
+                            inputRef={register}
                             name="firstName"
-                            inputRef={register}
+                            defaultValue={firstName}
                         />
-                        <TextField
-                            defaultValue={lastName}
+                        <Input
                             className={classes.input}
-                            label="LastName"
-                            name="lastName"
                             inputRef={register}
+                            name="lastName"
+                            defaultValue={lastName}
+                        />
+                        <Input
+                            className={classes.input}
+                            inputRef={register}
+                            name="email"
+                            defaultValue={email}
+                            type="email"
                         />
                         <TextField
-                            label="Date of birth"
+                            className={classes.input}
+                            defaultValue={myDate}
+                            inputRef={register}
+                            label="DateOfBirth"
                             name="dateOfBirth"
                             type="date"
-                            defaultValue={myDate}
-                            className={classes.input}
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            inputRef={register}
-                        />
-                        <TextField
-                            label="email"
-                            name="email"
-                            type="email"
-                            defaultValue={email}
-                            className={classes.input}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            inputRef={register}
+                            onChange={handleChangeDateOfBirth}
                         />
                         <Controller
+                            key="age"
                             name="age"
                             control={control}
-                            className={classes.input}
-                            render={({onChange}) =>
-                                <>
+                            defaultValue={age}
+                            render={({value}) =>
+                                <div>
                                     <Typography id="discrete-slider" gutterBottom>
                                         Age
                                     </Typography>
                                     <Slider
-                                        key={age}
-                                        onChange={e => onChange(Number(e.target.innerText))}
+                                        onChange={(e,value) => {
+                                            handleChangeAge(value)
+                                        }}
+                                        value={value}
                                         valueLabelDisplay="auto"
-                                        defaultValue={age}
                                         step={1}
                                         min={1}
                                         max={110}
                                     />
-                                </>
+                                </div>
                             }
                         />
                         <Button type="submit" variant="contained" color="primary">
