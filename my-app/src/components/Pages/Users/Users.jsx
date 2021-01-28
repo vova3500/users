@@ -57,7 +57,7 @@ const Users = () => {
                                     lastName={user.lastName}
                                     email={user.email}
                                     picture={user.picture}
-
+                                    isFollow={user.isFollow}
                                 />))
                         }
                         <Container className={classes.pagination}>

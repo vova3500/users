@@ -9,12 +9,9 @@ import {
     FETCH_USER_FAIL,
 
     DELETE_USER,
-    EDIT_USER
+    EDIT_USER,
+    FOLLOW_AND_UNFOLLOW
 } from "../reducers/users";
-
-export const setLoading = () => ({
-    type: "SET_LOADING",
-});
 
 export const fetchUsersStart = (users, total) => ({
     type: FETCH_USERS_START
@@ -51,6 +48,11 @@ export const onEditUser = (user, toast) => ({
     type: EDIT_USER,
     payload: user,
     toast
+});
+
+export const followAndUnfollow = (id) => ({
+    type: FOLLOW_AND_UNFOLLOW,
+    payload: id
 });
 
 export const loadingUsers = (page) => async (dispatch) => {

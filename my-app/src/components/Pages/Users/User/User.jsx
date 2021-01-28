@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
-import {deleteUser} from "../../../../redux/actions/users"
+import {deleteUser, followAndUnfollow} from "../../../../redux/actions/users"
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     }
 });
 
-const User = ({id, firstName, lastName, email, picture}) => {
+const User = ({id, firstName, lastName, email, picture, isFollow}) => {
     const classes = useStyles();
 
 
@@ -48,6 +48,10 @@ const User = ({id, firstName, lastName, email, picture}) => {
 
     const onDeleteUser = () => {
         dispatch(deleteUser(id))
+    }
+
+    const onFollowAndUnfollow = () => {
+        dispatch(followAndUnfollow(id))
     }
 
     return (
@@ -76,6 +80,17 @@ const User = ({id, firstName, lastName, email, picture}) => {
                         Edit
                     </Button>
                 </Link>
+            </CardActions>
+            <CardActions>
+                {
+                    isFollow ?
+                    <Button onClick={() => onFollowAndUnfollow(id)} size="small" color="primary">
+                        Unfollow
+                    </Button> :
+                    <Button onClick={() => onFollowAndUnfollow(id)} size="small" color="primary">
+                        Follow
+                    </Button>
+                }
             </CardActions>
         </Card>
     )

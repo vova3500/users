@@ -31,7 +31,7 @@ const SkeletonUser = ({ children, loading}) => {
         return (
             Array(20)
                 .fill(0)
-                .map((_, index) => <div className={classes.root}>
+                .map((_, index) => <div key={index} className={classes.root}>
                     <Skeleton variant="circle" width={100} height={100} />
                     <div className={classes.info}>
                         <Skeleton variant="text" width={150} height={32} />
@@ -41,6 +41,7 @@ const SkeletonUser = ({ children, loading}) => {
                         <Skeleton variant="text" width={50} height={32} />
                         <Skeleton variant="text" width={50} height={32} />
                     </div>
+                    <div><Skeleton variant="text" width={50} height={32} /></div>
                 </div>)
         );
     }

@@ -2,6 +2,7 @@ import {calcDate, getCurrentAge} from "../../utils/helpers"
 
 export const DELETE_USER = "DELETE_USER";
 export const EDIT_USER = "EDIT_USER";
+export const FOLLOW_AND_UNFOLLOW = "FOLLOW_AND_UNFOLLOW";
 
 export const FETCH_USER_START = "FETCH_USER_START";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
@@ -28,7 +29,7 @@ const users = (state = initialState, action) => {
             }
         }
         case FETCH_USERS_SUCCESS: {
-            const newUsers = [...action.payload].map((item) => ({...item, isFrend: false}))
+            const newUsers = [...action.payload].map((item) => ({...item, isFollow: false}))
             return {
                 ...state,
                 items: newUsers,
@@ -98,6 +99,23 @@ const users = (state = initialState, action) => {
                 items: newUsers,
                 activeUser: newActiveUser
             };
+        }
+
+        case FOLLOW_AND_UNFOLLOW: {
+            const newUsers = [...state.items].map((item) => {
+                if (item.id === action.payload) {
+                    return {
+                        ...item,
+                        isFollow: !item.isFollow
+                    }
+                }
+                return item
+            })
+
+            return {
+                ...state,
+                items: newUsers
+            }
         }
 
         default: {
