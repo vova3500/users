@@ -1,14 +1,15 @@
 import React, {useEffect} from "react";
+import {loadingUsers} from "../../../redux/actions/users";
 
 import User from "./User/User";
 import Pagination from "./Pagination/Pagination";
+import SkeletonUser from "../../Loaders/SkeletonUser";
+import Error from "../../../utils/Error/Error";
 
 import {makeStyles} from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
-import {loadingUsers} from "../../../redux/actions/users";
-import SkeletonUser from "../../Loaders/SkeletonUser";
 
 const useStyles = makeStyles({
     root: {
@@ -35,6 +36,7 @@ const Users = () => {
 
     const users = useSelector(({users}) => users.items)
     const loading = useSelector(({users}) => users.loading)
+    const error = useSelector(({users}) => users.error)
 
 
     useEffect(() => {
@@ -44,24 +46,25 @@ const Users = () => {
     return (
         <Container className={classes.root}>
             <Container className={classes.users}>
-                {
-                    !loading ?
-                        users.map((user) => (
-                            <User
-                                key={user.id}
-                                id={user.id}
-                                firstName={user.firstName}
-                                lastName={user.lastName}
-                                email={user.email}
-                                picture={user.picture}
-                            />)) :
-                        Array(20)
-                            .fill(0)
-                            .map((_, index) => <SkeletonUser key={index}/>)
-                }
-            </Container>
-            <Container className={classes.pagination}>
-                <Pagination/>
+                <SkeletonUser loading={loading}>
+                    <Error error={error}>
+                        {
+                            users.map((user) => (
+                                <User
+                                    key={user.id}
+                                    id={user.id}
+                                    firstName={user.firstName}
+                                    lastName={user.lastName}
+                                    email={user.email}
+                                    picture={user.picture}
+
+                                />))
+                        }
+                        <Container className={classes.pagination}>
+                            <Pagination/>
+                        </Container>
+                    </Error>
+                </SkeletonUser>
             </Container>
         </Container>
 

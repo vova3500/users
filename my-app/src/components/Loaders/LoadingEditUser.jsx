@@ -15,14 +15,18 @@ const useStyles = makeStyles({
     }
 });
 
-const LoadingEditUser = () => {
+const LoadingEditUser = ({children, loading}) => {
     const classes = useStyles();
 
-    return (
-        <div className={classes.root}>
-            <CircularProgress />
-        </div>
-    )
+    if (loading){
+        return (
+            <div className={classes.root}>
+                <CircularProgress />
+            </div>
+        )
+    }
+
+    return children
 }
 
 export default LoadingEditUser

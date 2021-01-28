@@ -16,6 +16,7 @@ const initialState = {
     count: 0,
     activeUser: {},
     loading: false,
+    error: ""
 };
 
 const users = (state = initialState, action) => {
@@ -39,7 +40,7 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload.error
+                error: action.payload
             }
         }
 
@@ -62,7 +63,7 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload.error
+                error: action.payload
             }
         }
 

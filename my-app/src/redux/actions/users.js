@@ -73,7 +73,7 @@ export const loadingFullInfoUser = (id) => async (dispatch) => {
         dispatch(fetchUserSuccess(response.data))
     }
     catch (e){
-        dispatch(fetchUserFail(e))
+        dispatch(fetchUserFail(e.message))
     }
 };
 

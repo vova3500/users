@@ -24,22 +24,28 @@ const useStyles = makeStyles({
     }
 });
 
-const SkeletonUser = () => {
+const SkeletonUser = ({ children, loading}) => {
     const classes = useStyles();
 
-    return (
-        <div className={classes.root}>
-            <Skeleton variant="circle" width={100} height={100} />
-            <div className={classes.info}>
-                <Skeleton variant="text" width={150} height={32} />
-                <Skeleton variant="rect" width={210} height={118} />
-            </div>
-            <div className={classes.tools}>
-                <Skeleton variant="text" width={50} height={32} />
-                <Skeleton variant="text" width={50} height={32} />
-            </div>
-        </div>
-    )
+    if (loading) {
+        return (
+            Array(20)
+                .fill(0)
+                .map((_, index) => <div className={classes.root}>
+                    <Skeleton variant="circle" width={100} height={100} />
+                    <div className={classes.info}>
+                        <Skeleton variant="text" width={150} height={32} />
+                        <Skeleton variant="rect" width={210} height={118} />
+                    </div>
+                    <div className={classes.tools}>
+                        <Skeleton variant="text" width={50} height={32} />
+                        <Skeleton variant="text" width={50} height={32} />
+                    </div>
+                </div>)
+        );
+    }
+
+    return children;
 }
 
 export default SkeletonUser

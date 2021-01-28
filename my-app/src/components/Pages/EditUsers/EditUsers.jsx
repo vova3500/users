@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import Toastify from 'toastify-js'
 
 import {loadingFullInfoUser, onEditUser} from "../../../redux/actions/users"
+import Error from "../../../utils/Error/Error";
 
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -65,7 +66,8 @@ const EditUsers = () => {
 
     const dispatch = useDispatch();
 
-    const loading  = useSelector(({users}) => users.loading)
+    const loading = useSelector(({users}) => users.loading)
+    const error = useSelector(({users}) => users.error)
     const {
         id,
         picture,
@@ -80,7 +82,7 @@ const EditUsers = () => {
         dispatch(loadingFullInfoUser(params.id))
     }, [dispatch, params.id])
 
-    const toast = () =>{
+    const toast = () => {
         Toastify({
             className: classes.toast,
             text: "Changes are successful",
@@ -99,17 +101,17 @@ const EditUsers = () => {
         dispatch(onEditUser({...data, id}, toast))
     };
 
-    return !loading ? <Container className={classes.root}>
-            <Container className={classes.exit}>
-                <Link to="/">
-                    <IconButton color="primary" aria-label="upload picture" component="span">
-                        <ArrowBackIcon fontSize="large" color="primary"/>
-                    </IconButton>
-                </Link>
-            </Container>
-            {
-                id ?
-                <>
+    return (
+        <LoadingEditUser loading={loading}>
+            <Container className={classes.root}>
+                <Container className={classes.exit}>
+                    <Link to="/">
+                        <IconButton color="primary" aria-label="upload picture" component="span">
+                            <ArrowBackIcon fontSize="large" color="primary"/>
+                        </IconButton>
+                    </Link>
+                </Container>
+                <Error error={error}>
                     <Avatar className={classes.avatar} alt="Remy Sharp" src={picture}/>
                     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -131,7 +133,6 @@ const EditUsers = () => {
                             name="dateOfBirth"
                             type="date"
                             defaultValue={myDate}
-                            // value={myDate}
                             className={classes.input}
                             InputLabelProps={{
                                 shrink: true,
@@ -174,11 +175,10 @@ const EditUsers = () => {
                             Submit
                         </Button>
                     </form>
-                </>: <div>No User</div>
-            }
-
-        </Container> :
-        <LoadingEditUser/>
+                </Error>
+            </Container>
+        </LoadingEditUser>
+    )
 }
 
 export default EditUsers
