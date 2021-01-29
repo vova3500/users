@@ -60,11 +60,11 @@ const Users = () => {
                                     isFollow={user.isFollow}
                                 />))
                         }
-                        <Container className={classes.pagination}>
-                            <Pagination/>
-                        </Container>
                     </Error>
                 </SkeletonUser>
+                <Container className={classes.pagination}>
+                    <Pagination/>
+                </Container>
             </Container>
         </Container>
 

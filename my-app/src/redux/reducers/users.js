@@ -29,7 +29,7 @@ const users = (state = initialState, action) => {
             }
         }
         case FETCH_USERS_SUCCESS: {
-            const newUsers = [...action.payload].map((item) => ({...item, isFollow: false}))
+            const newUsers = [...action.payload].map((item) => ({...item, follow: []}))
             return {
                 ...state,
                 items: newUsers,
@@ -102,14 +102,16 @@ const users = (state = initialState, action) => {
         }
 
         case FOLLOW_AND_UNFOLLOW: {
-            const newUsers = [...state.items].map((item) => {
-                if (item.id === action.payload) {
-                    return {
-                        ...item,
-                        isFollow: !item.isFollow
-                    }
+            const activeUser = [...state.items].filter((item) => item.id === action.id)
+
+            activeUser[0].follow = JSON.parse(JSON.stringify(action.users))
+
+            const newUsers = [...state.items].map((user) => {
+                if (user.id === action.id) {
+
+                  user = activeUser[0]
                 }
-                return item
+                return user
             })
 
             return {

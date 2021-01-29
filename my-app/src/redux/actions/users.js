@@ -50,9 +50,10 @@ export const onEditUser = (user, toast) => ({
     toast
 });
 
-export const followAndUnfollow = (id) => ({
+export const followAndUnfollow = (users,id) => ({
     type: FOLLOW_AND_UNFOLLOW,
-    payload: id
+    users: users,
+    id: id
 });
 
 export const loadingUsers = (page) => async (dispatch) => {

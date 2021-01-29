@@ -123,7 +123,6 @@ const EditUsers = () => {
         register("age");
     }, [register])
 
-
     return (
         <LoadingEditUser loading={loading}>
             <Container className={classes.root}>
@@ -169,27 +168,24 @@ const EditUsers = () => {
                             onChange={handleChangeDateOfBirth}
                         />
                         <Controller
-                            key="age"
                             name="age"
                             control={control}
-                            defaultValue={age}
-                            render={({value}) =>
-                                <div>
-                                    <Typography id="discrete-slider" gutterBottom>
-                                        Age
-                                    </Typography>
-                                    <Slider
-                                        onChange={(e,value) => {
-                                            handleChangeAge(value)
-                                        }}
-                                        value={value}
-                                        valueLabelDisplay="auto"
-                                        step={1}
-                                        min={1}
-                                        max={110}
-                                    />
-                                </div>
-                            }
+                            defaultValue={age || 0}
+                            render={({value}) => <div>
+                                <Typography id="discrete-slider" gutterBottom>
+                                    Age
+                                </Typography>
+                                <Slider
+                                    onChange={(e, value) => {
+                                        handleChangeAge(value)
+                                    }}
+                                    value={value || 0}
+                                    valueLabelDisplay="auto"
+                                    step={1}
+                                    min={1}
+                                    max={110}
+                                />
+                            </div>}
                         />
                         <Button type="submit" variant="contained" color="primary">
                             Submit
