@@ -4,13 +4,16 @@ export const DELETE_USER = "DELETE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const FOLLOW_AND_UNFOLLOW = "FOLLOW_AND_UNFOLLOW";
 
-export const FETCH_USER_START = "FETCH_USER_START";
-export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
-export const FETCH_USER_FAIL = "FETCH_USER_FAIL";
+export const FETCH_START = "FETCH_START";
+export const FETCH_FAIL = "FETCH_FAIL";
 
-export const FETCH_USERS_START = "FETCH_USERS_START";
+export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
+
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
-export const FETCH_USERS_FAIL = "FETCH_USERS_FAIL";
+
+export const ERROR_CLEAR = "ERROR_CLEAR";
+
+
 
 const initialState = {
     items: [],
@@ -22,7 +25,7 @@ const initialState = {
 
 const users = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_USERS_START: {
+        case FETCH_START: {
             return {
                 ...state,
                 loading: true
@@ -37,18 +40,11 @@ const users = (state = initialState, action) => {
                 loading: false
             };
         }
-        case FETCH_USERS_FAIL: {
+        case FETCH_FAIL: {
             return {
                 ...state,
                 loading: false,
                 error: action.payload
-            }
-        }
-
-        case FETCH_USER_START: {
-            return {
-                ...state,
-                loading: true
             }
         }
         case FETCH_USER_SUCCESS: {
@@ -59,13 +55,6 @@ const users = (state = initialState, action) => {
                 activeUser: {...action.payload, age},
                 loading: false
             };
-        }
-        case FETCH_USER_FAIL: {
-            return {
-                ...state,
-                loading: false,
-                error: action.payload
-            }
         }
 
         case DELETE_USER: {
@@ -117,6 +106,13 @@ const users = (state = initialState, action) => {
             return {
                 ...state,
                 items: newUsers
+            }
+        }
+
+        case ERROR_CLEAR: {
+            return {
+                ...state,
+                error: ""
             }
         }
 

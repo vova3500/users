@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {loadingUsers} from "../../../redux/actions/users";
+import {errorClear, loadingUsers} from "../../../redux/actions/users";
 
 import User from "./User/User";
 import Pagination from "./Pagination/Pagination";
@@ -41,6 +41,10 @@ const Users = () => {
 
     useEffect(() => {
         dispatch(loadingUsers())
+    }, [dispatch])
+
+    useEffect(() => {
+        return dispatch(errorClear())
     }, [dispatch])
 
     return (

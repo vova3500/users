@@ -4,7 +4,7 @@ import {useForm, Controller} from "react-hook-form";
 import {Link, useParams} from "react-router-dom";
 import Toastify from 'toastify-js'
 
-import {loadingFullInfoUser, onEditUser} from "../../../redux/actions/users"
+import {errorClear, loadingFullInfoUser, onEditUser} from "../../../redux/actions/users"
 import Error from "../../../utils/Error/Error";
 import Input from "../../../utils/Input/Input";
 import {calcDate, getCurrentAge} from "../../../utils/helpers";
@@ -83,6 +83,10 @@ const EditUsers = () => {
     useEffect(() => {
         dispatch(loadingFullInfoUser(params.id))
     }, [dispatch, params.id])
+
+    useEffect(() => {
+        return dispatch(errorClear())
+    }, [dispatch])
 
     const toast = () => {
         Toastify({
