@@ -102,7 +102,6 @@ const EditUsers = () => {
     }
 
     const onSubmit = data => {
-        console.log(data)
         dispatch(onEditUser({...data, id}, toast))
     };
 
@@ -121,9 +120,6 @@ const EditUsers = () => {
 
     React.useEffect(() => {
         register("dateOfBirth");
-    }, [register])
-
-    React.useEffect(() => {
         register("age");
     }, [register])
 

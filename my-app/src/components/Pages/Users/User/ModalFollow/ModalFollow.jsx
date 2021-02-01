@@ -50,7 +50,7 @@ const ModalFollow  = (id) => {
 
     const users = useSelector(({users}) => users.items)
 
-    const [myUser, setMyUser] = useState(users.filter((user) => user.id === id))
+    const [myUser] = useState(users.filter((user) => user.id === id))
 
     const usersFollowing = users.filter((user) => user.follow)
 

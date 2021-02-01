@@ -47,8 +47,6 @@ export const onEditUser = (user, toast) => ({
     toast
 });
 
-
-
 export const followAndUnfollow = (users,id) => ({
     type: FOLLOW_AND_UNFOLLOW,
     users: users,
