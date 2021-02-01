@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
 import {deleteUser} from "../../../../redux/actions/users"
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -14,6 +14,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import ModalFollow from "./ModalFollow/ModalFollow";
+import {Modal} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
@@ -31,29 +33,41 @@ const useStyles = makeStyles({
         height: 100
     },
     cardActionArea: {
-        display:"flex",
+        display: "flex",
         flexDirection: "column"
 
     },
     cardActions: {
         alignSelf: "center"
+    },
+    ModalFollow: {
+        position: "absolute"
     }
+
 });
 
 const User = ({id, firstName, lastName, email, picture}) => {
     const classes = useStyles();
 
+    const dispatch = useDispatch()
 
-    const dispatch =  useDispatch()
+    const [isActiveModal, setIsActiveModal] = useState(false)
 
     const onDeleteUser = () => {
         dispatch(deleteUser(id))
     }
 
+    const onActiveModal = () => {
+        setIsActiveModal(true)
+    }
+    const onCloseModal = () => {
+        setIsActiveModal(false)
+    }
+
     return (
         <Card className={classes.root}>
             <CardActionArea className={classes.cardActionArea}>
-                <Avatar className={classes.avatar} alt="Remy Sharp" src={picture} />
+                <Avatar className={classes.avatar} alt="Remy Sharp" src={picture}/>
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="h6">
                         {lastName}
@@ -72,11 +86,24 @@ const User = ({id, firstName, lastName, email, picture}) => {
                     Delete
                 </Button>
                 <Link to={`/edit/${id}`}>
-                    <Button  size="small" color="primary">
+                    <Button size="small" color="primary">
                         Edit
                     </Button>
                 </Link>
             </CardActions>
+            <CardActions>
+                <Button onClick={onActiveModal} size="small" color="primary">
+                    Follow
+                </Button>
+            </CardActions>
+            <Modal
+                open={isActiveModal}
+                onClose={onCloseModal}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {ModalFollow(id)}
+            </Modal>
         </Card>
     )
 }

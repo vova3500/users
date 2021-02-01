@@ -1,13 +1,15 @@
 import React, {useEffect} from "react";
+import {errorClear, loadingUsers} from "../../../redux/actions/users";
 
 import User from "./User/User";
 import Pagination from "./Pagination/Pagination";
+import SkeletonUser from "../../Loaders/SkeletonUser";
+import Error from "../../../utils/Error/Error";
 
 import {makeStyles} from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
-import {loadingUsers} from "../../../redux/actions/users";
 
 const useStyles = makeStyles({
     root: {
@@ -34,31 +36,42 @@ const Users = () => {
 
     const users = useSelector(({users}) => users.items)
     const loading = useSelector(({users}) => users.loading)
+    const error = useSelector(({users}) => users.error)
 
 
     useEffect(() => {
         dispatch(loadingUsers())
     }, [dispatch])
 
+    useEffect(() => {
+        return dispatch(errorClear())
+    }, [dispatch])
+
     return (
-        !loading ?
-            <Container className={classes.root}>
-                <Container className={classes.users}>
-                    {users.map((user) => (
-                        <User
-                            key={user.id}
-                            id={user.id}
-                            firstName={user.firstName}
-                            lastName={user.lastName}
-                            email={user.email}
-                            picture={user.picture}
-                        />))
-                    }
-                </Container>
+        <Container className={classes.root}>
+            <Container className={classes.users}>
+                <SkeletonUser loading={loading}>
+                    <Error error={error}>
+                        {
+                            users.map((user) => (
+                                <User
+                                    key={user.id}
+                                    id={user.id}
+                                    firstName={user.firstName}
+                                    lastName={user.lastName}
+                                    email={user.email}
+                                    picture={user.picture}
+                                    isFollow={user.isFollow}
+                                />))
+                        }
+                    </Error>
+                </SkeletonUser>
                 <Container className={classes.pagination}>
                     <Pagination/>
                 </Container>
-            </Container> : <div>loading...</div>
+            </Container>
+        </Container>
+
     )
 }
 
