@@ -42,7 +42,6 @@ const Login = () => {
 
     const onSubmit = data => {
         dispatch(signIn(data.Username, data.password))
-        // console.log(data)
     };
 
     return (

@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     root: {
         width: "90%",
     },
-
 });
 
 
@@ -45,7 +44,6 @@ const Pages = () => {
                         <Route component={NotFound}/>
                     </Switch>
                 )
-
             }
         </Container>
     )

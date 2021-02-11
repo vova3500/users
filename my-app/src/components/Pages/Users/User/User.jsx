@@ -78,7 +78,6 @@ const User = ({id, firstName, lastName, email, picture}) => {
                     <Typography variant="body1" color="textSecondary" component="p">
                         {`Email: ${email}`}
                     </Typography>
-
                 </CardContent>
             </CardActionArea>
             <CardActions className={classes.cardActions}>
